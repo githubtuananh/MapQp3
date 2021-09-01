@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <title>MAP</title>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="./drag-drop-touch/jquery.draggableTouch.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html{
+            font-size: 62.5%;
+            font-family: sans-serif;
+        }
+        .main{
+            position: relative;
+            /* display: flex;
+            justify-content: center; */
+        }
+        .mouse{
+            position: absolute;
+            width: 7.2rem;
+            height: 7rem;
+            background-color: coral;
+            opacity: 0.5;
+
+            /* right: 50%;
+            top: 30%; */
+            display: none;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        #O4::before{
+            position: absolute;
+            content: '';
+            width: 100%;
+            height: 1px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #fff;
+        }
+        #O4::after{
+            position: absolute;
+            content: '';
+            width: 1px;
+            height: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #fff;
+        }
+        .img{
+            position: relative;
+            background: url('./bando.jpg') top center /cover no-repeat;
+            height: 100rem;
+            width: 100rem;
+        }
+        #O4 p{
+            position: absolute;
+        }
+        #O4 p:nth-child(1){
+            top: 25%;
+            left: 25%;
+            transform: translate(-50%,-50%);
+        }
+        #O4 p:nth-child(2){
+            left: 75%;
+            top: 25%;
+            transform: translate(-50%,-50%);
+
+        }
+        #O4 p:nth-child(3){
+            top: 75%;
+            left: 25%;
+            transform: translate(-50%,-50%);
+        }
+        #O4 p:nth-child(4){
+            top: 75%;
+            left: 75%;
+            transform: translate(-50%,-50%);
+        }
+
+        
+        #O9::before{
+            position: absolute;
+            content: '';
+            width: 100%;
+            height: 1px;
+            top: calc(100% / 3);
+            transform: translateY(-50%);
+            background-color: #fff;
+        }
+        #O9::after{
+            position: absolute;
+            content: '';
+            width: 100%;
+            height: 1px;
+            top: calc(100% * 2 / 3);
+            transform: translateY(-50%);
+            background-color: #fff;
+        } 
+        #O9 .c-1{
+            position: absolute;
+            content: '';
+            width: 1px;
+            height: 100%;
+            left: calc(100% * 1 / 3);
+            transform: translateX(-50%);
+            background-color: #fff;
+        }
+        #O9 .c-2{
+            position: absolute;
+            content: '';
+            width: 1px;
+            height: 100%;
+            left: calc(100% * 2 / 3);
+            transform: translateX(-50%);
+            background-color: #fff;
+        }
+        #O9 p{
+            position: absolute;
+            font-size: 1.1rem;
+        }
+        #O9 p:nth-child(1){
+            top: 15%;
+            left: 15%;
+            transform: translate(-50%,-50%);
+        }
+        #O9 p:nth-child(2){
+            top: 15%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        #O9 p:nth-child(3){
+            top: 15%;
+            left: 83%;
+            transform: translate(-50%,-50%);
+        }
+        #O9 p:nth-child(4){
+            top: 50%;
+            left: 83%;
+            transform: translate(-50%,-50%);
+        }
+        #O9 p:nth-child(5){
+            top: 83%;
+            left: 83%;
+            transform: translate(-50%,-50%);
+        }
+        #O9 p:nth-child(6){
+            top: 83%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        #O9 p:nth-child(7){
+            top: 83%;
+            left: 15%;
+            transform: translate(-50%,-50%);
+        }
+        #O9 p:nth-child(8){
+            top: 50%;
+            left: 15%;
+            transform: translate(-50%,-50%);
+        }
+        #O9 p:nth-child(9){
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+
+        /* button{
+            cursor: pointer;
+            z-index: 10;
+            
+        } */
+
+        .img .col p{
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 1px;
+            background-color: red;
+            display: none;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .img .col p:nth-child(1){
+            left: 1.1%;
+        }
+        .img .col p:nth-child(2){
+            left: 6.7%;
+        }
+        .img .col p:nth-child(3){
+            left: 13.83%;
+        }
+        .img .col p:nth-child(4){
+            left: 20.97%;
+        }
+        .img .col p:nth-child(5){
+            left: 28.13%;
+        }
+        .img .col p:nth-child(6){
+            left: 35.29%;
+        }
+        .img .col p:nth-child(7){
+            left: 42.44%;
+        }
+        .img .col p:nth-child(8){
+            left: 49.59%;
+        }
+        .img .col p:nth-child(9){
+            left: 56.73%;
+        }
+        .img .col p:nth-child(10){
+            left: 63.87%;
+        }
+        .img .col p:nth-child(11){
+            left: 71%;
+        }
+        .img .col p:nth-child(12){
+            left: 78.1%;
+        }
+        .img .col p:nth-child(13){
+            left: 85.22%;
+        }
+        .img .col p:nth-child(14){
+            left: 92.38%;
+        }
+        .img .col p:nth-child(15){
+            left: 98.8%;
+        }
+
+        
+        .img .row p{
+            position: absolute;
+            top: 0;
+            height: 1px;
+            width: 100%;
+            background-color: red;
+            display: none;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .img .row p:nth-child(1){
+            top: 3.1%;
+        }
+        .img .row p:nth-child(2){
+            top: 10.1%;
+        }
+        .img .row p:nth-child(3){
+            top: 17.2%;
+        }
+        .img .row p:nth-child(4){
+            top: 24.2%;
+        }
+        .img .row p:nth-child(5){
+            top: 31.3%;
+        }
+        .img .row p:nth-child(6){
+            top: 38.3%;
+        }
+        .img .row p:nth-child(7){
+            top: 45.4%;
+        }
+        .img .row p:nth-child(8){
+            top: 52.4%;
+        }
+        .img .row p:nth-child(9){
+            top: 59.45%;
+        }
+        .img .row p:nth-child(10){
+            top: 66.5%;
+        }
+        .img .row p:nth-child(11){
+            top: 73.5%;
+        }
+        .img .row p:nth-child(12){
+            top: 80.5%;
+        }
+        .img .row p:nth-child(13){
+            top: 87.6%;
+        }
+        .img .row p:nth-child(14){
+            top: 94.6%;
+        }
+        .img .row p:nth-child(15){
+            top: 98.8%;
+        }
+
+
+        .function{
+            position: absolute;
+            z-index: 10;
+            right: 0;
+            top: 0;
+            background: coral;
+            border-radius: 0.3rem;
+            padding: 0.5rem 1.3rem;
+            outline: none;
+            border: none;
+            position: fixed;
+        }
+        select{
+            background: coral;
+            color: #fff;
+            outline: none;
+            border: none;
+            cursor: pointer;
+        }
+        .result{
+            position: absolute;
+            z-index: 11;
+            background-color: rgb(212, 78, 29);
+            color: #fff;
+            width: 11rem;
+            height: 2rem;
+            display: none;
+            text-align: center;
+            line-height: 2rem;
+            border-radius: 0 7px 7px 7px;
+        }
+
+        .address{
+            position: absolute;
+            z-index: 11;
+            background-color: coral;
+            width: 10rem;
+            height: 2rem;
+            opacity: 0.3;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="function">
+        <!-- <button class="btn-4">Tọa độ Ô 4</button>
+        <button class="btn-9">Tọa độ Ô 9</button>
+        <button class="btn-sl">Tọa độ sơ lược</button>
+        <button class="btn-9">Tọa độ chính xác</button> -->
+        <select name="option">
+            <option value="none">Chọn chức năng</option>
+            <option value="o4">Tọa độ ô 4</option>
+            <option value="o9">Tọa độ ô 9</option>
+            <option value="sl">Tọa độ sơ lược</option>
+            <option value="cx">Tọa độ chính xác</option>
+        </select>
+
+        <select name="Address">
+            <option value="none">Chọn địa điểm</option>
+            <option value="Q1">Quận 1</option>
+            <option value="Q3">Quận 3</option>
+            <option value="Q4">Quận 4</option>
+            <option value="Q5">Quận 5</option>
+            <option value="Q10">Quận 10</option>
+            <option value="Q11">Quận 11</option>
+            <option value="tanphu">Tân Phú</option>
+            <option value="tanbinh">Tân Bình</option>
+            <option value="govap">Gò Vấp</option>
+            <option value="phunhuan">Phú Nhuận</option>
+            <option value="binhthanh">Bình Thạnh</option>
+        </select>
+
+    </div>
+
+    <div class="main">
+        <div class="img">
+            <div class="result"></div>
+            <div class="col">
+                <p id="c-78">78</p>
+                <p id="c-79">79</p>
+                <p id="c-80">80</p>
+                <p id="c-81">81</p>
+                <p id="c-82">82</p>
+                <p id="c-83">83</p>
+                <p id="c-84">84</p>
+                <p id="c-85">85</p>
+                <p id="c-86">86</p>
+                <p id="c-87">87</p>
+                <p id="c-88">88</p>
+                <p id="c-89">89</p>
+                <p id="c-90">90</p>
+                <p id="c-91">91</p>
+                <p id="c-92">92</p>
+            </div>
+
+            <div class="row">
+                <p id="r-02">02</p>
+                <p id="r-01">01</p>
+                <p id="r-00">00</p>
+                <p id="r-99">99</p>
+                <p id="r-98">98</p>
+                <p id="r-97">97</p>
+                <p id="r-96">96</p>
+                <p id="r-95">95</p>
+                <p id="r-94">94</p>
+                <p id="r-93">93</p>
+                <p id="r-92">92</p>
+                <p id="r-91">91</p>
+                <p id="r-90">90</p>
+                <p id="r-89">89</p>
+                <p id="r-88">88</p>
+            </div>
+            
+            <div class="address"></div>
+        </div>
+        <div class="mouse" id="O4">
+            <p>A</p>
+            <p>B</p>
+            <p>C</p>
+            <p>D</p>
+        </div>
+        <div class="mouse" id="O9">
+            <p>1</p>
+            <p>2</p>
+            <p>3</p>
+            <p>4</p>
+            <p>5</p>
+            <p>6</p>
+            <p>7</p>
+            <p>8</p>
+            <p>9</p>
+            <span class="c-1"></span>
+            <span class="c-2"></span>
+        </div>
+    </div>
+
+
+</body>
+<script>
+    $(document).ready(function(){
+        function findIndex(n,arr){
+            for(let i in arr){
+                if(arr[i]==n){
+                    return i;
+                }
+            }
+        }
+        Array.prototype.min = function() {
+            return Math.min.apply(null, this);
+        };
+
+
+
+        $('select[name="Address"]').change(function(){
+            if($('select[name="Address"]').val() == 'Q1'){
+                $('.address').css({
+                    top: '83%',
+                    left: '52%',
+                    display: 'block'
+                })
+                // console.log($('.img').width())
+                var x = $('.img').width()*52/100
+                var y = $('.img').height()*83/100
+                window.scrollTo(x,y)
+            }
+            if($('select[name="Address"]').val() == 'Q3'){
+                $('.address').css({
+                    left: '45%',
+                    top: '67%',
+                    display: 'block'
+                })
+                var x = $('.img').width()*45/100
+                var y = $('.img').height()*67/100
+                window.scrollTo(x,y)
+            }
+            if($('select[name="Address"]').val() == 'Q4'){
+                $('.address').css({
+                    left: '61%',
+                    top: '89.5%',
+                    display: 'block'
+                })
+                var x = $('.img').width()*61/100
+                var y = $('.img').height()*89.5/100
+                window.scrollTo(x,y)
+            }
+            if($('select[name="Address"]').val() == 'Q5'){
+                $('.address').css({
+                    left: '29%',
+                    top: '94%',
+                    display: 'block'
+                })
+                var x = $('.img').width()*29/100
+                var y = $('.img').height()*94/100
+                window.scrollTo(x,y)
+            }
+            if($('select[name="Address"]').val() == 'Q10'){
+                $('.address').css({
+                    left: '28%',
+                    top: '81.5%',
+                    display: 'block'
+                })
+                var x = $('.img').width()*28/100
+                var y = $('.img').height()*81.5/100
+                window.scrollTo(x,y)
+            }
+            if($('select[name="Address"]').val() == 'Q11'){
+                $('.address').css({
+                    left: '12%',
+                    top: '83%',
+                    display: 'block'
+                })
+                var x = $('.img').width()*12/100
+                var y = $('.img').height()*83/100
+                window.scrollTo(x,y)
+            }
+            if($('select[name="Address"]').val() == 'tanphu'){
+                $('.address').css({
+                    left: '0',
+                    top: '72%',
+                    display: 'block'
+                })
+                var x = $('.img').width()*0/100
+                var y = $('.img').height()*72/100
+                window.scrollTo(x,y)
+            }
+            if($('select[name="Address"]').val() == 'tanbinh'){
+                $('.address').css({
+                    left: '15%',
+                    top: '61%',
+                    display: 'block'
+                })
+                var x = $('.img').width()*15/100
+                var y = $('.img').height()*61/100
+                window.scrollTo(x,y)
+            }
+            if($('select[name="Address"]').val() == 'govap'){
+                $('.address').css({
+                    left: '26%',
+                    top: '34%',
+                    display: 'block'
+                })
+                var x = $('.img').width()*26/100
+                var y = $('.img').height()*34/100
+                window.scrollTo(x,y)
+            }
+            if($('select[name="Address"]').val() == 'phunhuan'){
+                $('.address').css({
+                    left: '36%',
+                    top: '63%',
+                    display: 'block'
+                })
+                var x = $('.img').width()*36/100
+                var y = $('.img').height()*63/100
+                window.scrollTo(x,y)
+            }
+            if($('select[name="Address"]').val() == 'binhthanh'){
+                $('.address').css({
+                    left: '46%',
+                    top: '52.5%',
+                    display: 'block'
+                })
+                var x = $('.img').width()*46/100
+                var y = $('.img').height()*52.5/100
+                window.scrollTo(x,y)
+            }
+  
+        })
+
+        $(document).mousemove(function(e){
+            $('.mouse').css({
+                left : e.pageX,
+                top : e.pageY,
+            });
+        })
+        if($(window).width() < 500){
+            $('.mouse').css('top','0px');
+            $('.mouse').draggableTouch()
+        }else{
+            $(document).mousemove(function(e){
+                $('.mouse').css({
+                    left : e.pageX,
+                    top : e.pageY,
+                });
+            })
+        }
+
+        $('select').change(function(e){
+            if($('select').val() == 'sl'){
+                $('#O9').css('display','none');
+                $('#O4').css('display','none');
+                $('.img p').css('display','block');
+                $('.img').click(function(e){
+                    if($('select').val() == 'sl'){
+                    var Xclick = e.pageX;
+                    var Yclick = e.pageY;
+
+                    var listC = $('.img .col p')
+                    var listR = $('.img .row p')
+                    var arr = []
+                    var arr1= []
+// --Column
+                    listC.each(function(index){
+                        var n =  $(this).offset().left - Xclick ;
+                        if(n<0){
+                            n=-n;
+                        }
+                        arr.push(n)
+                    })
+
+        
+                    var min1 = arr.min();
+                    arr.splice(findIndex(min1,arr),1)
+                    var min2 = arr.min();
+                    var indexColumn = findIndex(min2,arr);
+
+//Row
+                    listR.each(function(index){
+                        var n =  $(this).offset().top - Yclick ;
+                        if(n<0){
+                            n=-n;
+                        }
+                        arr1.push(n)
+                    })
+
+        
+                    var min1 = arr1.min();
+                    arr1.splice(findIndex(min1,arr1),1)
+                    var min2 = arr1.min();
+                    var indexRow = Number(findIndex(min2,arr1)) + 1;
+
+                    var result =   $(listR[indexRow]).text() + $(listC[indexColumn]).text()
+                    console.log(result)
+
+                    var distX = $(listC[indexColumn]).offset().left - Xclick;
+                    var distanceX = $(listC[Number(indexColumn) + 1]).offset().left - $(listC[indexColumn]).offset().left;
+                    var distY = $(listR[indexRow]).offset().top - Yclick;
+                    var distanceY = $(listR[indexRow]).offset().top - $(listR[Number(indexRow) - 1]).offset().top;
+                    
+                    var exactlyX = - Math.round(distX/distanceX * 4 * 250);
+                    var exactlyY = Math.round(distY/distanceY * 4 * 250);
+                    console.log(exactlyY, exactlyX)
+
+
+                    $('.result').css({
+                        left: Xclick,
+                        top: Yclick,
+                        display: 'block'
+                    }).text(`Tọa độ sơ lược: ${result}`)
+
+                    }
+                })
+            }
+            else if($('select').val() == 'o4'){
+                $('#O4').css({
+                    'display':'block',
+                    top: '30%',
+                    left: '50%'
+                });
+                $('#O9').css('display','none');
+                $('.img p').css('display','none')
+            }
+            else if($('select').val() == 'o9'){
+                $('#O9').css({
+                    'display':'block',
+                    top: '30%',
+                    left: '50%'
+                });
+                $('#O4').css('display','none');
+                $('.img p').css('display','none')
+            }
+            else if($('select').val() == 'cx'){
+                $('.img p').css('display','block')
+                $('#O9').css('display','none');
+                $('#O4').css('display','none');
+
+
+                $('.img').click(function(e){
+                    if($('select').val() == 'cx'){
+                    var Xclick = e.pageX;
+                    var Yclick = e.pageY;
+
+                    var listC = $('.img .col p')
+                    var listR = $('.img .row p')
+                    var arr = []
+                    var arr1= []
+// --Column
+                    listC.each(function(index){
+                        var n =  $(this).offset().left - Xclick ;
+                        if(n<0){
+                            n=-n;
+                        }
+                        arr.push(n)
+                    })
+
+        
+                    var min1 = arr.min();
+                    arr.splice(findIndex(min1,arr),1)
+                    var min2 = arr.min();
+                    var indexColumn = findIndex(min2,arr);
+
+//Row
+                    listR.each(function(index){
+                        var n =  $(this).offset().top - Yclick ;
+                        if(n<0){
+                            n=-n;
+                        }
+                        arr1.push(n)
+                    })
+
+        
+                    var min1 = arr1.min();
+                    arr1.splice(findIndex(min1,arr1),1)
+                    var min2 = arr1.min();
+                    var indexRow = Number(findIndex(min2,arr1)) + 1;
+
+                    
+                    var distX = $(listC[indexColumn]).offset().left - Xclick;
+                    var distanceX = $(listC[Number(indexColumn) + 1]).offset().left - $(listC[indexColumn]).offset().left;
+                    var distY = $(listR[indexRow]).offset().top - Yclick;
+                    var distanceY = $(listR[indexRow]).offset().top - $(listR[Number(indexRow) - 1]).offset().top;
+                    
+                    var exactlyX = - Math.round(distX/distanceX * 4 * 250);
+                    var exactlyY = Math.round(distY/distanceY * 4 * 250);
+                    
+                    var result =   $(listR[indexRow]).text() + exactlyY.toString() +  $(listC[indexColumn]).text() + exactlyX.toString()
+
+                    $('.result').css({
+                        left: Xclick,
+                        top: Yclick,
+                        display: 'block',
+                        width: '17rem'
+
+                    }).text(`Tọa độ chính xác: ${result}`)
+                    }
+                })
+            }
+        })
+
+
+    })
+</script>
+</html>
